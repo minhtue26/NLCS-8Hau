@@ -128,7 +128,6 @@ namespace QuanHau2
                         cell[i, j].BackColor = Color.Black;  
                         cell[i, j].ForeColor = Color.White;
                     }
-                   // cell[i, j].Text = "♕";
                   
                     tableLayoutPanel1.Controls.Add(cell[i,j], j, i);
                 }
@@ -150,9 +149,6 @@ namespace QuanHau2
                 BanCo[hang, cot] = TRONG;
                 cell[hang, cot].Text = "";
             }
-           // BanCo[hang, cot] = HAU;
-            //cell[hang, cot].Text = "♕";
-
         }
 
         private void hienThi()
