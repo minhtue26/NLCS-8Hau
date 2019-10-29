@@ -33,6 +33,7 @@
             this.btnPrev = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.lbThu = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -97,23 +98,37 @@
             // lbThu
             // 
             this.lbThu.AutoSize = true;
-            this.lbThu.Location = new System.Drawing.Point(96, 67);
+            this.lbThu.Location = new System.Drawing.Point(71, 52);
             this.lbThu.Name = "lbThu";
-            this.lbThu.Size = new System.Drawing.Size(0, 13);
+            this.lbThu.Size = new System.Drawing.Size(46, 13);
             this.lbThu.TabIndex = 4;
+            this.lbThu.Text = "dsdsdfsf";
+            this.lbThu.Visible = false;
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(64, 173);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 5;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Visible = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(716, 511);
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lbThu);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnPrev);
             this.Controls.Add(this.btnXepHau);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -126,6 +141,7 @@
         private System.Windows.Forms.Button btnPrev;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label lbThu;
+        private System.Windows.Forms.Button btnReset;
     }
 }
 

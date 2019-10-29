@@ -172,16 +172,20 @@ namespace QuanHau2
         }
         private void btnXepHau_Click(object sender, EventArgs e)
         {
+            dapAn.Clear();
             btnXepHau.Visible = false;
             DatHau(0);
             if (dapAn.Count > 0) { 
                 btnPrev.Visible = true;
                 btnNext.Visible = true;
+                btnReset.Visible = true;
+                lbThu.Visible = true;
                 hienThi();
-                lbThu.Text = "Lời Giải thứ " + (thutu + 1) + "/" + dapAn.Count;
+                lbThu.Text = "Solution " + (thutu + 1) + "/" + dapAn.Count;
             } else
             {
-                MessageBox.Show("Không có đáp án!");
+                MessageBox.Show("No Solution!");
+                btnReset_Click(null, null);
             }
         }
 
@@ -189,7 +193,7 @@ namespace QuanHau2
         {
             if (thutu > 0)
                 thutu--;
-            lbThu.Text = "Lời Giải thứ " + (thutu + 1) + "/" + dapAn.Count;
+            lbThu.Text = "Solution " + (thutu + 1) + "/" + dapAn.Count;
             hienThi();
         }
 
@@ -197,8 +201,31 @@ namespace QuanHau2
         {
             if (thutu < dapAn.Count - 1)
                 thutu++;
-            lbThu.Text = "Lời Giải thứ " + (thutu + 1) + "/" + dapAn.Count;
+            lbThu.Text = "Solution " + (thutu + 1) + "/" + dapAn.Count;
             hienThi();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            btnNext.Visible = false;
+            btnPrev.Visible = false;
+            btnXepHau.Visible = true;
+            lbThu.Visible = false;
+            btnReset.Visible = false;
+            
+            for(int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    BanCo[i, j] = TRONG;
+                    cell[i, j].Text = "" ;
+                }
+            }
         }
     }
 }
