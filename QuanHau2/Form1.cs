@@ -28,13 +28,59 @@ namespace QuanHau2
         }
         public void LuuDapAn()
         {
-            char[,] tmp = new char[n,n];
+            char[,] tmp = new char[n, n];
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                     tmp[i, j] = BanCo[i, j];
             }
             dapAn.Add(tmp);
+        }
+        public bool ViTriHopLe(int hangCanKiem, int cotCanKiem)
+        {
+            for (int cot = 0; cot < n; cot++)
+            {
+                if (BanCo[hangCanKiem, cot] == HAU)
+                {
+                    return false;
+                }
+            }
+            for (int hang = n - 1; hang >= 0; hang--) //kiem tra cot
+            {
+                if (BanCo[hang, cotCanKiem] == HAU)
+                {
+                    return false;
+                }
+            }
+            for (int hang = hangCanKiem - 1, cot = cotCanKiem - 1; hang >= 0 && cot >= 0; hang--, cot--) //kiem tra cheo trai tren
+            {
+                if (BanCo[hang, cot] == HAU)
+                {
+                    return false;
+                }
+            }
+            for (int hang = hangCanKiem + 1, cot = cotCanKiem - 1; hang < n && cot >= 0; hang++, cot--) //kiem tra cheo trai duoi
+            {
+                if (BanCo[hang, cot] == HAU)
+                {
+                    return false;
+                }
+            }
+            for (int hang = hangCanKiem - 1, cot = cotCanKiem + 1; hang >= 0 && cot < n; hang--, cot++) //kiem tra cheo phai tren
+            {
+                if (BanCo[hang, cot] == HAU)
+                {
+                    return false;
+                }
+            }
+            for (int hang = hangCanKiem + 1, cot = cotCanKiem + 1; hang < n && cot < n; hang++, cot++) //kiem tra cheo phai duoi
+            {
+                if (BanCo[hang, cot] == HAU)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         public void DatHau(int i)
         {
@@ -52,47 +98,10 @@ namespace QuanHau2
                     return;
                 }
             }
-
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j < n; ++j)
             {
-                bool trung = false;
-
-                for (int hang = n - 1; hang >= 0; hang--) //kiem tra cot
-                {
-                    if (BanCo[hang, j] == HAU)
-                    {
-                        trung = true;
-                    }
-                }
-                for (int hang = i - 1, cot = j - 1; hang >= 0 && cot >= 0; hang--, cot--) //kiem tra cheo trai tren
-                {
-                    if (BanCo[hang, cot] == HAU)
-                    {
-                        trung = true;
-                    }
-                }
-                for (int hang = i + 1, cot = j - 1; hang < n && cot >= 0; hang++, cot--) //kiem tra cheo trai duoi
-                {
-                    if (BanCo[hang, cot] == HAU)
-                    {
-                        trung = true;
-                    }
-                }
-                for (int hang = i - 1, cot = j + 1; hang >= 0 && cot < n; hang--, cot++) //kiem tra cheo phai tren
-                {
-                    if (BanCo[hang, cot] == HAU)
-                    {
-                        trung = true;
-                    }
-                }
-                for (int hang = i + 1, cot = j + 1; hang < n && cot < n; hang++, cot++) //kiem tra cheo phai duoi
-                {
-                    if (BanCo[hang, cot] == HAU)
-                    {
-                        trung = true;
-                    }
-                }
-                if (!trung)
+                
+                if (ViTriHopLe(i, j))
                 {
                     BanCo[i, j] = HAU;
                     DatHau(i + 1);
@@ -109,7 +118,7 @@ namespace QuanHau2
             tableLayoutPanel1.ColumnCount = 8;
             tableLayoutPanel1.RowCount = 8;
             tableLayoutPanel1.Margin = new Padding(0);
-            for(int i = 0; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -118,18 +127,18 @@ namespace QuanHau2
                     cell[i, j].Size = new Size(sideLen, sideLen);
                     cell[i, j].Font = new Font(cell[i, j].Font.FontFamily, 20);
                     cell[i, j].Tag = new int[] { i, j };
-                    cell[i,j].MouseUp += OnCellClick;
+                    cell[i, j].MouseUp += OnCellClick;
                     if ((i + j) % 2 == 0)
                     {
-                        cell[i,j].BackColor = Color.White;
+                        cell[i, j].BackColor = Color.White;
                     }
                     else
                     {
-                        cell[i, j].BackColor = Color.Black;  
+                        cell[i, j].BackColor = Color.Black;
                         cell[i, j].ForeColor = Color.White;
                     }
-                  
-                    tableLayoutPanel1.Controls.Add(cell[i,j], j, i);
+
+                    tableLayoutPanel1.Controls.Add(cell[i, j], j, i);
                 }
             }
         }
@@ -141,8 +150,17 @@ namespace QuanHau2
 
             if (e.Button == MouseButtons.Left)
             {
-                BanCo[hang, cot] = HAU;
-                cell[hang, cot].Text = "♕";
+                if (ViTriHopLe(hang, cot))
+                {
+                    BanCo[hang, cot] = HAU;
+                    cell[hang, cot].Text = "♕";
+                }
+                else
+                {
+                    MessageBox.Show("Can't place a queen here as this cell is in attack range of another queen!");
+                }
+
+
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -173,16 +191,19 @@ namespace QuanHau2
         private void btnXepHau_Click(object sender, EventArgs e)
         {
             dapAn.Clear();
+            thutu = 0;
             btnXepHau.Visible = false;
             DatHau(0);
-            if (dapAn.Count > 0) { 
+            if (dapAn.Count > 0)
+            {
                 btnPrev.Visible = true;
                 btnNext.Visible = true;
                 btnReset.Visible = true;
                 lbThu.Visible = true;
                 hienThi();
                 lbThu.Text = "Solution " + (thutu + 1) + "/" + dapAn.Count;
-            } else
+            }
+            else
             {
                 MessageBox.Show("No Solution!");
                 btnReset_Click(null, null);
@@ -216,14 +237,14 @@ namespace QuanHau2
             btnPrev.Visible = false;
             btnXepHau.Visible = true;
             lbThu.Visible = false;
-            btnReset.Visible = false;
-            
-            for(int i = 0; i < n; i++)
+            //btnReset.Visible = false;
+
+            for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
                     BanCo[i, j] = TRONG;
-                    cell[i, j].Text = "" ;
+                    cell[i, j].Text = "";
                 }
             }
         }

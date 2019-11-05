@@ -34,6 +34,7 @@
             this.btnNext = new System.Windows.Forms.Button();
             this.lbThu = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -113,14 +114,26 @@
             this.btnReset.TabIndex = 5;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Visible = false;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(23, 242);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(156, 86);
+            this.textBox1.TabIndex = 6;
+            this.textBox1.Text = "Ghi chú:\r\n- Chọn vị trí đặt hậu và Run \r\nhoặc Run mà không cần đặt.\r\n- Chuột trái" +
+    " đặt hậu, chuột phải\r\nđể gỡ hậu.\r\n";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(716, 511);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lbThu);
             this.Controls.Add(this.btnNext);
@@ -142,6 +155,7 @@
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Label lbThu;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
