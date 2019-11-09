@@ -8,12 +8,14 @@ namespace QuanHau2
     public partial class Form1 : Form
     {
         private static readonly int n = 8;
+        //private static int TRANSITION_INTERVAL = 50;
         private static char HAU = 'H';
         private static char TRONG = '.';
         private char[,] BanCo = new char[n, n];
         private List<char[,]> dapAn = new List<char[,]>();
         private Button[,] cell = new Button[n, n];
         private int thutu = 0;
+        Timer timer = new Timer();
 
         public char[,] KhoiTaoBanCo()
         {
@@ -100,7 +102,7 @@ namespace QuanHau2
             }
             for (int j = 0; j < n; ++j)
             {
-                
+
                 if (ViTriHopLe(i, j))
                 {
                     BanCo[i, j] = HAU;
@@ -112,6 +114,8 @@ namespace QuanHau2
 
         public Form1()
         {
+            //timer.Interval = TRANSITION_INTERVAL;
+            //timer.Tick += nextSolution;
             InitializeComponent();
             KhoiTaoBanCo();
             int sideLen = 50;
@@ -125,7 +129,7 @@ namespace QuanHau2
                     cell[i, j] = new Button();
                     cell[i, j].Margin = new Padding(0);
                     cell[i, j].Size = new Size(sideLen, sideLen);
-                    cell[i, j].Font = new Font(cell[i, j].Font.FontFamily, 20);
+                    cell[i, j].Font = new Font(cell[i, j].Font.FontFamily, 30);
                     cell[i, j].Tag = new int[] { i, j };
                     cell[i, j].MouseUp += OnCellClick;
                     if ((i + j) % 2 == 0)
@@ -134,7 +138,8 @@ namespace QuanHau2
                     }
                     else
                     {
-                        cell[i, j].BackColor = Color.Black;
+                        cell[i, j].BackColor = Color.Red;
+                        //cell[i, j].BackColor = Color.Black;
                         cell[i, j].ForeColor = Color.White;
                     }
 
@@ -187,12 +192,43 @@ namespace QuanHau2
 
                 }
             }
+            int[] ToaDo = new int[8];
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    if (board[i, j] == HAU)
+                    {
+                        ToaDo[i] = j;
+                    }
+              
+                }
+            }
+            lbVet.Text = "";
+            for (int i = 0; i < ToaDo.Length ; i++)
+            {
+                    lbVet.Text += ToaDo[i].ToString() + " ";
+
+            }
+
+
+
+
+        }
+        private void nextSolution(object sender, EventArgs e)
+        {
+            if (dapAn.Count == thutu - 1)
+            {
+                timer.Stop();
+                return;
+            }
+            btnNext_Click(null, null);
         }
         private void btnXepHau_Click(object sender, EventArgs e)
         {
             dapAn.Clear();
             thutu = 0;
-            btnXepHau.Visible = false;
+            btnXepHau.Enabled = false;
             DatHau(0);
             if (dapAn.Count > 0)
             {
@@ -202,6 +238,7 @@ namespace QuanHau2
                 lbThu.Visible = true;
                 hienThi();
                 lbThu.Text = "Solution " + (thutu + 1) + "/" + dapAn.Count;
+                timer.Start();
             }
             else
             {
@@ -235,10 +272,10 @@ namespace QuanHau2
         {
             btnNext.Visible = false;
             btnPrev.Visible = false;
-            btnXepHau.Visible = true;
+            btnXepHau.Enabled= true;
             lbThu.Visible = false;
             //btnReset.Visible = false;
-
+            //timer.Stop();
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
